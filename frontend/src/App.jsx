@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Heading } from './components/Heading'
 import { SubHeading } from './components/SubHeading'
 import { InputBox } from './components/InputBox'
 import { Button } from './components/Button'
+import { Todos } from './components/todos'
 import axios from "axios"
 
 function App() {
+  const [todos, setTodos] = useState([])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [status, setStatus] = useState("To Do")
@@ -32,6 +34,14 @@ function App() {
     );
     setTasks(updatedTasks);
   };
+
+  useEffect(()=>{
+    fetch("http://localhost:3000/api/v1/todo/bulk")
+    .then(async (res) =>{
+      const json = await res.json();
+      setTodos(json.todos);
+    })
+  }, [todos])
 
 
 
@@ -67,6 +77,12 @@ function App() {
         </div>
       </div>
     </div>
+    <div className="flex flex-col justify-center">
+      <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
+        <Todos todos={todos}></Todos>
+      </div>
+    </div>
+
   </div>
 }
 
@@ -108,8 +124,8 @@ function App() {
   //           <div>
   //             <h3>{task.title}</h3>
   //             <p>{task.description}</p>
-  //             <p>Status: {task.status}</p>
-  //             <button onClick={() => handleDelete(index)}>Delete</button>
+              // <p>Status: {task.status}</p>
+              // <button onClick={() => handleDelete(index)}>Delete</button>
   //             <select
   //               value={task.status}
   //               onChange={(e) => handleStatusChange(index, e.target.value)}
