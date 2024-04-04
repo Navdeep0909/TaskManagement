@@ -1,3 +1,5 @@
+import { Button } from "./Button"
+
 export function Todos({todos}){
     return <div>
         {todos.map(function(todo){
@@ -5,7 +7,7 @@ export function Todos({todos}){
                     <h1>{todo.title}</h1>
                     <h2>{todo.description}</h2>
                     <p>Status: {todo.status}</p>
-                    <button>Delete</button>
+                    <Button label={"Delete Task"} />
                 </div>
         })}
     </div>
