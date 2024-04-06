@@ -47,5 +47,17 @@ router.get("/bulk", async (req, res) => {
     })
 })
 
+router.delete("/deletetodo", (req, res) => {
+    const todoId = req.query.id
+    todo.deleteOne({ _id: todoId })
+    .then(result => {
+        console.log('Delete operation acknowledged:', result.acknowledged);
+        console.log('Number of documents deleted:', result.deletedCount);
+      })
+      .catch(error => {
+        console.error('Error deleting document:', error);
+      });
+})
+
 
 module.exports = router;
