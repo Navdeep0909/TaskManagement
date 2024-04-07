@@ -47,8 +47,24 @@ router.get("/bulk", async (req, res) => {
     })
 })
 
-router.delete("/deletetodo", (req, res) => {
-    const todoId = req.query.id
+//Update the status of the todo
+router.put("/updatetodo/:id", async (req, res) => {
+    const todoId = req.params.id
+    console.log(req.params.id)
+    await todo.updateOne({ _id: todoId }, {
+        status: req.body.status
+    })
+
+    res.json({
+        message: "Updated successfully"
+    })
+    
+})
+
+
+//Delete a todo
+router.delete("/deletetodo/:id", (req, res) => {
+    const todoId = req.params.id
     todo.deleteOne({ _id: todoId })
     .then(result => {
         console.log('Delete operation acknowledged:', result.acknowledged);
